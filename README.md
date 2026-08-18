@@ -67,19 +67,17 @@ Each colour is a different detector; the bottom bar shows how many faces each
 one found.
 
 ![All four detectors agree: 3/3/3/3 faces found on adversarially patterned clothing](samples/s001_overlay.jpg)
-*Full agreement across all four detectors (3/3/3/3), despite adversarial
-patterns on the clothing — the pattern isn't disrupting face detection here.*
+*Full agreement across all four detectors on adversarially patterned
+clothing: 3/3/3/3.*
 
 ![A person-detector "no detection" claim next to a face-detector overlay showing 2 of 3 detectors still finding the face](samples/s002_overlay.jpg)
-*A claim of "no detection" against a person detector (left/right comparison in
-the source image) doesn't carry over to face detection — RetinaFace, SCRFD,
-and YOLO still find the face; only MediaPipe misses it. Person detection and
-face detection are different tasks with different failure modes.*
+*A claim of "no detection" against a person detector (left/right comparison
+in the source image) doesn't carry over to face detection — RetinaFace,
+SCRFD, and YOLO still find the face; only MediaPipe misses it.*
 
 ![RetinaFace, SCRFD, and YOLO detect the face but MediaPipe reports 0](samples/s004_overlay.jpg)
-*Partial disagreement: three detectors find the face, MediaPipe reports 0.
-Worth investigating further, but a single MediaPipe miss isn't strong
-evidence on its own — see the FAQ below.*
+*Three detectors find the face, MediaPipe reports 0 — see the FAQ below on
+why a single MediaPipe miss isn't strong evidence on its own.*
 
 ## Reading the output
 
@@ -97,12 +95,9 @@ evidence on its own — see the FAQ below.*
 ## FAQ
 
 **Do adversarial patterns hide my face from face detection?**
-No — they don't hide your face. Your face is still fully visible in the
-image; nothing is concealed or obscured. What an adversarial pattern
-attempts to do is feed a detector's model visual noise that pushes its
-confidence score below the threshold needed to draw a box, on that
-particular model. It's an attack on a classifier's decision boundary, not
-camouflage.
+No — your face stays fully visible in the image. What an adversarial pattern
+does is feed the detector's model visual noise that pushes its confidence
+score below the threshold needed to draw a box, on that one model.
 
 **Does makeup-based camouflage (CV Dazzle and similar projects) actually work?**
 No, not against modern detectors. It doesn't conceal the face itself — it
@@ -133,11 +128,9 @@ was actually obscured or just missed by one model.
 **Is there a pattern or technique that reliably defeats all face detectors?**
 No — not without physically blocking the face from the camera's view.
 Adversarial patterns and makeup attack a specific model's confidence
-threshold; they don't remove the face from the image. The strongest result
-this tool can show — zero boxes across all four independent detectors on the
-same image — hasn't turned up in testing so far. Treat any single-model "no
-detection" claim with skepticism until it's checked against multiple
-independent detectors.
+threshold; they don't remove the face from the image. Treat any single-model
+"no detection" claim with skepticism until it's checked against multiple
+independent detectors — that's the whole reason this tool runs four at once.
 
 **Why might different face detectors disagree on the same image?**
 They're built differently. MediaPipe, RetinaFace, SCRFD, and YOLOv11-face use
