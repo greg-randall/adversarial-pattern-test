@@ -1,0 +1,7 @@
+opencv-python>=4.8
+numpy>=1.24
+mediapipe>=0.10
+retina-face>=0.0.17
+insightface>=0.7
+onnxruntime>=1.16
+ultralytics>=8.2
